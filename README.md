@@ -1,4 +1,4 @@
 desiutils
 =========
 
-Collection of general utility java classes
+Collection of general utility java classes.
