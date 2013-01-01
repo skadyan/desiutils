@@ -15,5 +15,20 @@
 			<artifactId>mango</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>de.intarsys.opensource</groupId>
+			<artifactId>jPod</artifactId>
+			<version>5.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.media</groupId>
+					<artifactId>jai-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.media</groupId>
+					<artifactId>jai-codec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 </project>
