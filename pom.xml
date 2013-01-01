@@ -11,6 +11,8 @@
 		<module>mango</module>
 		<module>learn-features</module>
 		<module>data-access</module>
+		<module>coreservices</module>
+		<module>tools</module>
 	</modules>
 
 	<properties>
