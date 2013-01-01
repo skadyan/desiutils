@@ -10,6 +10,7 @@
 	<modules>
 		<module>mango</module>
 		<module>learn-features</module>
+		<module>data-access</module>
 	</modules>
 
 	<properties>
@@ -17,15 +18,52 @@
 		<java.source.version>${project.java.version}</java.source.version>
 		<java.target.version>${project.java.version}</java.target.version>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
 		<use.manifest.classpath>true</use.manifest.classpath>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 		<slf4j.version>1.7.2</slf4j.version>
 		<logback.version>1.0.7</logback.version>
+		<dom4j.version>1.6.1</dom4j.version>
+
+		<skipTests>false</skipTests>
+		<skipITs>${skipTests}</skipITs>
+		<skipUTs>${skipTests}</skipUTs>
+		
+		<springframework.version>3.2.0.RELEASE</springframework.version>
+		<springframework.data.version>1.1.0.RELEASE</springframework.data.version>
+		<hibernate.version>4.1.2.Final</hibernate.version>
+
 	</properties>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+				
+					<skipTests>${skipTests}</skipTests>
+					<skipITs>${skipITs}</skipITs>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+					<skipTests>${skipUTs}</skipTests>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

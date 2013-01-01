@@ -1,10 +1,17 @@
 package desi.learn.test;
 
+import java.io.IOException;
+import java.net.URL;
+
+import org.junit.Test;
+
 
 public class ParameterizedTestExample {
-	
-	public void testVerifyCsv(){
+	@Test
+	public void testVerifyCsv() throws IOException{
+		URL url = new URL("ftp://x.com");
 		
+		url.openConnection();
 	}
 	
 }

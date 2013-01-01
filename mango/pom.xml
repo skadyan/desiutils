@@ -8,11 +8,6 @@
 	</parent>
 	<artifactId>mango</artifactId>
 	<name>Mango-Utils</name>
-
-	<properties>
-		<dom4j.version>1.6.1</dom4j.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>dom4j</groupId>

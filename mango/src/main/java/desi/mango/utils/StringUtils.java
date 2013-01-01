@@ -1,5 +1,6 @@
 package desi.mango.utils;
 
+import java.beans.Introspector;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -123,5 +124,9 @@ public class StringUtils {
 
 	public static String trimToNull(String line) {
 		return isNullOrBlank(line) ? null : line.trim();
+	}
+
+	public static String decapitalize(String name) {
+		return Introspector.decapitalize(name);
 	}
 }
