@@ -3,9 +3,9 @@ package com.sapient.ipv.service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class CoreDomainObjectService {
-	
-	public void saveAccounts() {
+public class CoreDataService {
 
+	public void saveSimpleEntity(Object entity) {
+		
 	}
 }

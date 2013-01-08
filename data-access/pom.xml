@@ -8,7 +8,88 @@
 	</parent>
 	<artifactId>data-access</artifactId>
 	<name>Spring Data Access</name>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<tasks>
+						<taskdef name="instrument"
+							classname="org.hibernate.tool.instrument.javassist.InstrumentTask">
+							<classpath>
+								<path>
+									<path refid="maven.plugin.classpath" />
+									<path refid="maven.runtime.classpath" />
+								</path>
+							</classpath>
+						</taskdef>
+
+						<instrument verbose="true">
+							<fileset dir="${project.build.outputDirectory}">
+								<include name="**/*Ticket.class">
+								</include>
+							</fileset>
+						</instrument>
+					</tasks>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-antrun-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
 	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>mango</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
@@ -61,6 +142,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.ttddyy</groupId>
+			<artifactId>datasource-proxy</artifactId>
+			<version>1.1</version>
 		</dependency>
 	</dependencies>
 

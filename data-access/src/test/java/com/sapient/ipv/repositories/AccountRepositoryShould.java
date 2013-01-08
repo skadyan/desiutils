@@ -51,5 +51,6 @@ public class AccountRepositoryShould {
 
 		account = accountRepository.save(account);
 		assertThat(account.getId(), notNullValue());
+		System.out.println("*************");
 	}
 }

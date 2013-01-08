@@ -13,6 +13,7 @@
 		<module>data-access</module>
 		<module>coreservices</module>
 		<module>tools</module>
+		<module>rnp-jdbc</module>
 	</modules>
 
 	<properties>
@@ -31,7 +32,7 @@
 		<skipTests>false</skipTests>
 		<skipITs>${skipTests}</skipITs>
 		<skipUTs>${skipTests}</skipUTs>
-		
+
 		<springframework.version>3.2.0.RELEASE</springframework.version>
 		<springframework.data.version>1.1.0.RELEASE</springframework.data.version>
 		<hibernate.version>4.1.2.Final</hibernate.version>
@@ -45,7 +46,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.12.4</version>
 				<configuration>
-				
+
 					<skipTests>${skipTests}</skipTests>
 					<skipITs>${skipITs}</skipITs>
 				</configuration>
@@ -63,6 +64,13 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12.4</version>
 				<configuration>
+					<includes>
+						<include>**/*Should.java</include>
+						<include>**/Test*.java</include>
+						<include>**/*Test.java</include>
+						<include>**/*TestCase.java</include>
+					</includes>
+					<argLine>-XX:-UseSplitVerifier</argLine>
 					<skipTests>${skipUTs}</skipTests>
 				</configuration>
 			</plugin>
@@ -130,6 +138,10 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
