@@ -15,7 +15,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
-import javax.persistence.Lob;
 
 import org.xml.sax.InputSource;
 
@@ -23,7 +22,6 @@ import org.xml.sax.InputSource;
 public class RawData implements Cloneable, Serializable {
 	private static final long serialVersionUID = 1L;
 
-//	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "raw_data")
 	private IdentityHashMap<RawField<?>, Object> rawData = new IdentityHashMap<>();

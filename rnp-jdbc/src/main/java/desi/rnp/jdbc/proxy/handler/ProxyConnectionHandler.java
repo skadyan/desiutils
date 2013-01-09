@@ -1,13 +1,20 @@
 package desi.rnp.jdbc.proxy.handler;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 
-public class ProxyConnectionHandler implements InvocationHandler {
+import desi.rnp.jdbc.proxy.JdbcProxyFactory;
 
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		return null;
+public class ProxyConnectionHandler extends ProxyObjectInvocationHandlerSupport<Connection> {
+
+	public ProxyConnectionHandler(JdbcProxyFactory proxyFactory, Connection nativeObject) {
+		super(proxyFactory, nativeObject);
+	}
+
+	public DatabaseMetaData getMetaData() throws SQLException {
+		DatabaseMetaData nativeMetaData = nativeObject.getMetaData();
+		return proxyFactory.newProxyObject(nativeMetaData);
 	}
 
 }

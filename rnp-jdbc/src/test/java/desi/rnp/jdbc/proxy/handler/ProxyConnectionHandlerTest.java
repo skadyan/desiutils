@@ -1,32 +1,50 @@
 package desi.rnp.jdbc.proxy.handler;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import desi.rnp.jdbc.proxy.JdbcProxyFactory;
+import desi.rnp.jdbc.proxy.ProxyObject;
 
 public class ProxyConnectionHandlerTest {
 	private JdbcProxyFactory jdbcProxyFactory;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		jdbcProxyFactory = new JdbcProxyFactory();
 	}
+
 	@Test
-	public void invokeGetMetaData() throws Exception {
+	public void testDatabaseMetaDataIsAProxyObjectReturnFromProxyConnecction() throws Exception {
 		DatabaseMetaData nativeMetaData = mock(DatabaseMetaData.class);
+
 		Connection nativeObject = mock(Connection.class);
-		Mockito.when(nativeObject.getMetaData()).thenReturn(nativeMetaData);
+		when(nativeObject.getMetaData()).thenReturn(nativeMetaData);
+
 		Connection proxyObject = jdbcProxyFactory.newProxyObject(nativeObject);
 		DatabaseMetaData metaData = proxyObject.getMetaData();
-		assertThat(metaData, CoreMatchers.sameInstance(nativeMetaData));
+
+		assertThat(metaData, instanceOf(ProxyObject.class));
 	}
+
+	@Test(expected = SQLException.class)
+	public void testNativeSQLExcpetionIsThrownByProxyObject() throws Exception {
+		Connection nativeObject = mock(Connection.class);
+		doThrow(new SQLException()).when(nativeObject).getTransactionIsolation();
+
+		Connection proxyObject = jdbcProxyFactory.newProxyObject(nativeObject);
+		// trigger the exception
+		proxyObject.getTransactionIsolation();
+	}
+
 }

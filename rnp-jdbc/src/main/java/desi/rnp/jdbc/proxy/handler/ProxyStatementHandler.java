@@ -1,14 +1,12 @@
 package desi.rnp.jdbc.proxy.handler;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
+import java.sql.Statement;
 
-public class ProxyStatementHandler implements InvocationHandler {
+import desi.rnp.jdbc.proxy.JdbcProxyFactory;
 
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		// TODO Auto-generated method stub
-		return null;
+public class ProxyStatementHandler extends AbstractProxyStatementInvocationHandler<Statement>{
+
+	public ProxyStatementHandler(JdbcProxyFactory proxyFactory, Statement nativeObject) {
+		super(proxyFactory, nativeObject);
 	}
-
 }

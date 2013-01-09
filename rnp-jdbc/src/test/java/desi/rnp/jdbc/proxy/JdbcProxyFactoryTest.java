@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
@@ -56,4 +57,12 @@ public class JdbcProxyFactoryTest {
 		DataSource proxyObject = proxyFactory.newProxyObject(nativeObject);
 		assertThat(proxyObject, instanceOf(ProxyObject.class));
 	}
+
+	@Test
+	public void createProxyDatabaseMetaDataObject() throws Exception {
+		DatabaseMetaData nativeObject = mock(DatabaseMetaData.class);
+		DatabaseMetaData proxyObject = proxyFactory.newProxyObject(nativeObject);
+		assertThat(proxyObject, instanceOf(ProxyObject.class));
+	}
+
 }
