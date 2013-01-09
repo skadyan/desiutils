@@ -2,12 +2,14 @@ package desi.rnp.jdbc.proxy;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.sql.DataSource;
@@ -63,6 +65,16 @@ public class JdbcProxyFactoryTest {
 		DatabaseMetaData nativeObject = mock(DatabaseMetaData.class);
 		DatabaseMetaData proxyObject = proxyFactory.newProxyObject(nativeObject);
 		assertThat(proxyObject, instanceOf(ProxyObject.class));
+	}
+
+	@Test(expected = SQLException.class)
+	public void testNativeSQLExcpetionIsThrownByProxyObject() throws Exception {
+		Connection nativeObject = mock(Connection.class);
+		doThrow(new SQLException()).when(nativeObject).getTransactionIsolation();
+
+		Connection proxyObject = proxyFactory.newProxyObject(nativeObject);
+		// trigger the exception
+		proxyObject.getTransactionIsolation();
 	}
 
 }
