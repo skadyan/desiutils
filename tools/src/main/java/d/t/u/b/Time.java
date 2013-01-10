@@ -1,4 +1,4 @@
-package desi.tools.utility.bill;
+package d.t.u.b;
 
 public class Time implements Comparable<Time> {
     private int HH;

@@ -3,11 +3,11 @@ package desi.tools.utility.bill;
 import java.io.PrintStream;
 
 
+import d.t.u.x.Adnsdvnfdg;
+import d.t.u.x.Dfdsfds;
 import de.intarsys.pdf.content.common.CSPrettyPrinter;
-import desi.tools.utility.pdf.AbstractPDFDocumentSupport;
-import desi.tools.utility.pdf.PageWrapper;
 
-public class DumpPage extends AbstractPDFDocumentSupport {
+public class DumpPage extends Adnsdvnfdg {
 
     private PrintStream out;
 
@@ -32,7 +32,7 @@ public class DumpPage extends AbstractPDFDocumentSupport {
 
     private void doDemo() throws Exception {
         out.println("Processing: " + document.getName());
-        PageWrapper wrapper = getPage(3);
+        Dfdsfds wrapper = getPage(3);
         CSPrettyPrinter printer = new CSPrettyPrinter();
         printer.setCreateComment(true);
         printer.setCreateIndent(true);

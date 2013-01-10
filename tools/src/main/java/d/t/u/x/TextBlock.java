@@ -1,4 +1,4 @@
-package desi.tools.utility.pdf;
+package d.t.u.x;
 
 import de.intarsys.pdf.content.CSOperation;
 import de.intarsys.pdf.content.CSOperators;

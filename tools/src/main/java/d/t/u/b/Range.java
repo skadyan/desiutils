@@ -1,4 +1,4 @@
-package desi.tools.utility.bill;
+package d.t.u.b;
 
 public class Range<T extends Comparable<T>> {
     private T lower;

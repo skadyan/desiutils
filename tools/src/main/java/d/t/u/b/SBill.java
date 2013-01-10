@@ -1,4 +1,4 @@
-package desi.tools.utility.bill;
+package d.t.u.b;
 
 
 public class SBill {
@@ -13,6 +13,6 @@ public class SBill {
 
 		System.setProperty("config.file", "interactive.properties");
 
-		BillDocument.main(new String[] { file, code, desination });
+		Edkfjdfigof.main(new String[] { file, code, desination });
 	}
 }

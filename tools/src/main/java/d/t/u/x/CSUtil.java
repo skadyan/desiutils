@@ -1,4 +1,4 @@
-package desi.tools.utility.pdf;
+package d.t.u.x;
 
 import de.intarsys.pdf.content.CSOperation;
 import de.intarsys.pdf.content.CSOperator;
@@ -17,8 +17,8 @@ public class CSUtil {
         return index;
     }
 
-    public static String dumpPageContent(AbstractPDFDocumentSupport pdf, int pageNo) {
-        PageWrapper pageWrapper = pdf.getPage(pageNo);
+    public static String dumpPageContent(Adnsdvnfdg pdf, int pageNo) {
+        Dfdsfds pageWrapper = pdf.getPage(pageNo);
         CSPrettyPrinter printer = new CSPrettyPrinter();
         printer.setCreateComment(true);
         printer.setCreateIndent(true);

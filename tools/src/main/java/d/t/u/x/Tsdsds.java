@@ -1,4 +1,4 @@
-package desi.tools.utility.pdf;
+package d.t.u.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,14 @@ import org.slf4j.LoggerFactory;
 
 import de.intarsys.pdf.content.CSOperation;
 
-public class TextBlockProvider {
+public class Tsdsds {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private List<TextBlock> blocks;
 	private int current;
 	private int end;
 
-	public TextBlockProvider(PageWrapper page) {
+	public Tsdsds(Dfdsfds page) {
 		build(page.getOperations());
 	}
 
@@ -39,7 +39,7 @@ public class TextBlockProvider {
 		log.trace("# " + blocks.size() + " total blocks found.");
 	}
 
-	public void setCurrentByPattern(String pattern) {
+	public void setdfgmg(String pattern) {
 		int offset = current;
 		Pattern p = Pattern.compile(pattern);
 		for (int i = offset; i < end; i++) {
@@ -51,7 +51,7 @@ public class TextBlockProvider {
 		}
 	}
 
-	public boolean setEndLimitByPattern(String pattern) {
+	public boolean setdfgdgByPattern(String pattern) {
 		return setEndLimitByPattern(current, pattern);
 	}
 
@@ -102,7 +102,7 @@ public class TextBlockProvider {
 		current = pos;
 	}
 
-	public boolean setEndLimitByPatternAfterEnd(String pattern) {
+	public boolean setldkfmkdfnd(String pattern) {
 		return setEndLimitByPattern(end, pattern);
 	}
 }

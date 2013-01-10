@@ -1,7 +1,7 @@
 /**
  *
  */
-package desi.tools.utility.pdf;
+package d.t.u.x;
 
 import de.intarsys.pdf.content.CSContent;
 import de.intarsys.pdf.content.CSOperation;
@@ -11,7 +11,7 @@ import de.intarsys.pdf.pd.PDPage;
  * @author kadyans
  * 
  */
-public class PageWrapper {
+public class Dfdsfds {
 
     private PDPage page;
 
@@ -19,15 +19,15 @@ public class PageWrapper {
 
     private CSOperation[] operations;
 
-    private PageWrapper(PDPage page) {
+    private Dfdsfds(PDPage page) {
         this.page = page;
         this.pageContent = page.getContentStream();
         this.operations = pageContent.getOperations();
 
     }
 
-    public static PageWrapper wrap(PDPage page) {
-        PageWrapper wrapper = new PageWrapper(page);
+    public static Dfdsfds wrap(PDPage page) {
+        Dfdsfds wrapper = new Dfdsfds(page);
 
         return wrapper;
     }

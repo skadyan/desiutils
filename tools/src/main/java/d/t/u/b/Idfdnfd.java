@@ -1,4 +1,4 @@
-package desi.tools.utility.bill;
+package d.t.u.b;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,23 +6,23 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Properties;
 
-import desi.tools.utility.pdf.IO;
+import d.t.u.x.IO;
 
-public class InteractiveCallFilter implements CallLogFilter {
-	private Properties prop;
-	private String[] candidates;
+public class Idfdnfd implements Cjvn {
+	private Properties xxx;
+	private String[] csd;
 
-	private Range<Time> range;
-	private int pulseLimit;
+	private Range<Time> d;
+	private int lsds;
 
-	private String[] whiteListSr;
+	private String[] wxxx;
 
-	public InteractiveCallFilter(Properties p) {
+	public Idfdnfd(Properties p) {
 		setProperties(p);
 	}
 
 	private void setProperties(Properties p) {
-		prop = p;
+		xxx = p;
 
 		init();
 	}
@@ -32,41 +32,41 @@ public class InteractiveCallFilter implements CallLogFilter {
 
 		initTimeRange();
 
-		String raw = prop.getProperty("candidate.critiera.pulseLimit", "3");
-		pulseLimit = Integer.parseInt(raw);
+		String raw = xxx.getProperty("candidate.critiera.pulseLimit", "3");
+		lsds = Integer.parseInt(raw);
 
 		initWhiteListSr();
 
 	}
 
 	private void initWhiteListSr() {
-		String raw = prop.getProperty("candiate.white.list.sr", "");
+		String raw = xxx.getProperty("candiate.white.list.sr", "");
 		String[] parts = raw.split(",");
 		Arrays.sort(parts);
-		whiteListSr = parts;
+		wxxx = parts;
 	}
 
 	private void initCandiate() {
 		byte[] bytes = new byte[] { 57, 57, 49, 49, 57, 52, 53, 48, 53, 53, 44, 57, 55, 49, 56, 51, 54, 53, 48, 53, 53,
 				44, 57, 57, 49, 49, 54, 49, 52, 53, 48, 48 };
 		String defaultCandidates = new String(bytes);
-		String raw = prop.getProperty("candidate.numbers", defaultCandidates);
+		String raw = xxx.getProperty("candidate.numbers", defaultCandidates);
 
-		candidates = raw.split(",");
+		csd = raw.split(",");
 	}
 
 	private void initTimeRange() {
 		String raw;
-		raw = prop.getProperty("candidate.critiera.callTimeRange", "17:00,22:00");
+		raw = xxx.getProperty("candidate.critiera.callTimeRange", "17:00,22:00");
 		String[] parts = raw.split(",");
 
 		Time lower = Time.parse(parts[0]);
 		Time upper = Time.parse(parts[1]);
 
-		range = new Range<Time>(lower, upper);
+		d = new Range<Time>(lower, upper);
 	}
 
-	public InteractiveCallFilter() {
+	public Idfdnfd() {
 		String resource = System.getProperty("config.file", "interactive.properties");
 
 		Properties p = IO.loadProperties(getClass().getResourceAsStream(resource));
@@ -74,10 +74,10 @@ public class InteractiveCallFilter implements CallLogFilter {
 	}
 
 	@Override
-	public boolean isDeletable(CallLog e) {
+	public boolean isJslnlfg(CLlfnsdfgfdg e) {
 		boolean isDeletable = false;
-		for (int i = 0; i < candidates.length; i++) {
-			if (e.getNumber().getText().endsWith(candidates[i])) {
+		for (int i = 0; i < csd.length; i++) {
+			if (e.getDsfsdgd().getText().endsWith(csd[i])) {
 				isDeletable = true;
 				break;
 			}
@@ -95,27 +95,27 @@ public class InteractiveCallFilter implements CallLogFilter {
 		return isDeletable;
 	}
 
-	private boolean isInterationNeeded(CallLog e) {
-		String t = e.getTime().getText();
+	private boolean isInterationNeeded(CLlfnsdfgfdg e) {
+		String t = e.getWuiyirtrt().getText();
 		Time tt = Time.parse(t);
 		// first check in specified time-range
-		if (range.in(tt)) {
+		if (d.in(tt)) {
 			int pulse = e.getPulseAsInt();
 			// check the pulse limit
-			if (pulse <= pulseLimit) {
+			if (pulse <= lsds) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean checkForWhiteList(CallLog e) {
-		String sr = e.getSr().getText();
+	private boolean checkForWhiteList(CLlfnsdfgfdg e) {
+		String sr = e.getCc().getText();
 
-		return Arrays.binarySearch(whiteListSr, sr) >= 0;
+		return Arrays.binarySearch(wxxx, sr) >= 0;
 	}
 
-	private boolean ask(CallLog log) {
+	private boolean ask(CLlfnsdfgfdg log) {
 		try {
 			System.out.println("Delete " + log + " (y|[n]):");
 			boolean answer = !reader.readLine().trim().equalsIgnoreCase("n");

@@ -1,4 +1,4 @@
-package desi.tools.utility.pdf;
+package d.t.u.x;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import de.intarsys.pdf.pd.PDPageTree;
 import de.intarsys.tools.locator.FileLocator;
 import de.intarsys.tools.locator.ILocator;
 
-public class AbstractPDFDocumentSupport {
+public class Adnsdvnfdg {
 
 	protected PDDocument document;
 
@@ -24,7 +24,7 @@ public class AbstractPDFDocumentSupport {
 
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 
-	protected AbstractPDFDocumentSupport() {
+	protected Adnsdvnfdg() {
 	}
 
 	public void open(String filepath, String password) throws IOException, COSLoadException {
@@ -35,13 +35,13 @@ public class AbstractPDFDocumentSupport {
 		pageTree = document.getPageTree();
 	}
 
-	public PageWrapper getPage(int pageIndex) {
+	public Dfdsfds getPage(int pageIndex) {
 		String key = "__wra_page_" + pageIndex;
-		PageWrapper wrapper = (PageWrapper) attrs.get(key);
+		Dfdsfds wrapper = (Dfdsfds) attrs.get(key);
 		if (wrapper == null) {
 			PDPage page = pageTree.getPageAt(pageIndex);
 			if (page != null) {
-				wrapper = PageWrapper.wrap(page);
+				wrapper = Dfdsfds.wrap(page);
 				attrs.put(key, wrapper);
 			}
 		}
@@ -52,7 +52,7 @@ public class AbstractPDFDocumentSupport {
 	public void flush() throws IOException {
 		for (String key : attrs.keySet()) {
 			if (key.startsWith("__wra_page_")) {
-				PageWrapper wrapper = (PageWrapper) attrs.get(key);
+				Dfdsfds wrapper = (Dfdsfds) attrs.get(key);
 
 				wrapper.flushChanges();
 			}

@@ -1,15 +1,15 @@
-package desi.tools.utility.bill;
+package d.t.u.b;
 
 import java.io.IOException;
 import java.io.PrintStream;
 
 
+import d.t.u.x.Adnsdvnfdg;
+import d.t.u.x.Dfdsfds;
 import de.intarsys.pdf.content.common.CSPrettyPrinter;
 import de.intarsys.pdf.parser.COSLoadException;
-import desi.tools.utility.pdf.AbstractPDFDocumentSupport;
-import desi.tools.utility.pdf.PageWrapper;
 
-public class DocumentContentAnalyser extends AbstractPDFDocumentSupport {
+public class DocumentContentAnalyser extends Adnsdvnfdg {
 
     private String outfile;
 
@@ -58,7 +58,7 @@ public class DocumentContentAnalyser extends AbstractPDFDocumentSupport {
 
     private void printPages(CSPrettyPrinter printer) {
         for (int pageNo : pageNos) {
-            PageWrapper wrapper = getPage(pageNo);
+            Dfdsfds wrapper = getPage(pageNo);
             if (wrapper != null) {
                 printer.print(wrapper.getPageContent());
             }

@@ -1,4 +1,4 @@
-package desi.tools.utility.bill;
+package d.t.u.b;
 
 
 public class RBill {
@@ -11,7 +11,7 @@ public class RBill {
 		String desination = new String(new byte[] { 67, 58, 92, 100, 111, 99, 115, 92, 77, 95, 49, 46, 49, 48, 53, 56,
 				51, 54, 52, 51, 46, 112, 100, 102 });
 		System.setProperty("config.file", "RInteractive.properties");
-		BillDocument.main(new String[] { file, code, desination });
+		Edkfjdfigof.main(new String[] { file, code, desination });
 	}
 
 }
