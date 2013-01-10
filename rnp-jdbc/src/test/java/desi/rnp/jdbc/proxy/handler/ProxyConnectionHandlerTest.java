@@ -1,15 +1,25 @@
 package desi.rnp.jdbc.proxy.handler;
 
+import static desi.rnp.jdbc.proxy.util.ProxyObjectMatchers.anyArrayOfInt;
+import static desi.rnp.jdbc.proxy.util.ProxyObjectMatchers.anyArrayOfSting;
+import static desi.rnp.jdbc.proxy.util.ProxyObjectMatchers.isAProxyObjectHavingProxyConnection;
 import static java.sql.ResultSet.CONCUR_READ_ONLY;
+import static java.sql.ResultSet.CONCUR_UPDATABLE;
+import static java.sql.ResultSet.HOLD_CURSORS_OVER_COMMIT;
 import static java.sql.ResultSet.TYPE_FORWARD_ONLY;
+import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
+import static java.sql.Statement.NO_GENERATED_KEYS;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import org.junit.Before;
@@ -20,45 +30,104 @@ import desi.rnp.jdbc.proxy.ProxyObject;
 
 public class ProxyConnectionHandlerTest {
 	private JdbcProxyFactory proxyFactory;
+	private Connection nativeObject;
+	private Connection proxyObject;
 
 	@Before
 	public void setUp() throws Exception {
 		proxyFactory = new JdbcProxyFactory();
+		nativeObject = mock(Connection.class);
+		proxyObject = proxyFactory.newProxyObject(nativeObject);
 	}
 
 	@Test
 	public void testDatabaseMetaDataIsAProxyObjectReturnFromProxyConnecction() throws Exception {
-		DatabaseMetaData nativeMetaData = mock(DatabaseMetaData.class);
-
-		Connection nativeObject = mock(Connection.class);
-		when(nativeObject.getMetaData()).thenReturn(nativeMetaData);
-
-		Connection proxyObject = proxyFactory.newProxyObject(nativeObject);
-		DatabaseMetaData metaData = proxyObject.getMetaData();
-
-		assertThat(metaData, instanceOf(ProxyObject.class));
+		when(nativeObject.getMetaData()).thenReturn(mock(DatabaseMetaData.class));
+		assertThat(proxyObject.getMetaData(), instanceOf(ProxyObject.class));
 	}
 
 	@Test
 	public void testCreateStatementReturnProxyObject() throws Exception {
-		Connection nativeObject = mock(Connection.class);
-
 		when(nativeObject.createStatement()).thenReturn(mock(Statement.class));
-
-		Connection proxyObject = proxyFactory.newProxyObject(nativeObject);
-		Statement object = proxyObject.createStatement();
-
-		assertThat(object, instanceOf(ProxyObject.class));
+		assertThat(proxyObject.createStatement(), isAProxyObjectHavingProxyConnection());
 	}
 
 	@Test
 	public void testCreateStatementWithResultSetTypeAndConcurrencyReturnProxyObject() throws Exception {
-		Connection nativeObject = mock(Connection.class);
 		when(nativeObject.createStatement(anyInt(), anyInt())).thenReturn(mock(Statement.class));
 
-		Connection proxyObject = proxyFactory.newProxyObject(nativeObject);
-		Statement object = proxyObject.createStatement(TYPE_FORWARD_ONLY, CONCUR_READ_ONLY);
-		assertThat(object, instanceOf(ProxyObject.class));
+		Statement stmt = proxyObject.createStatement(TYPE_FORWARD_ONLY, CONCUR_READ_ONLY);
+		assertThat(stmt, isAProxyObjectHavingProxyConnection());
 	}
 
+	@Test
+	public void testPrepareCallReturnProxyObject() throws Exception {
+		when(nativeObject.prepareCall(anyString())).thenReturn(mock(CallableStatement.class));
+		CallableStatement cstmt = proxyObject.prepareCall("call some_procedure()");
+		assertThat(cstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPrepareCallWithResultsetTypeAndConcurrencyReturnedProxyObject() throws Exception {
+		when(nativeObject.prepareCall(anyString(), anyInt(), anyInt())).thenReturn(mock(CallableStatement.class));
+		CallableStatement cstmt = proxyObject.prepareCall("call some_procedure()", TYPE_FORWARD_ONLY, CONCUR_READ_ONLY);
+
+		assertThat(cstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPrepareCallWithResultsetTypeConcurrencyAndHoldabilityReturnedProxyObject() throws Exception {
+		when(nativeObject.prepareCall(anyString(), anyInt(), anyInt(), anyInt())).thenReturn(
+				mock(CallableStatement.class));
+
+		CallableStatement cstmt = proxyObject.prepareCall("call some_procedure()", TYPE_FORWARD_ONLY, CONCUR_READ_ONLY,
+				HOLD_CURSORS_OVER_COMMIT);
+		assertThat(cstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPreparedStatmentReturnProxyObject() throws Exception {
+		when(nativeObject.prepareStatement(anyString())).thenReturn(mock(PreparedStatement.class));
+		PreparedStatement pstmt = proxyObject.prepareStatement("select now() from dual");
+		assertThat(pstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPreparedStatmentWithGenerateKeyArgument() throws Exception {
+		when(nativeObject.prepareStatement(anyString(), anyInt())).thenReturn(mock(PreparedStatement.class));
+		PreparedStatement pstmt = proxyObject.prepareStatement("select now() from dual", NO_GENERATED_KEYS);
+		assertThat(pstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPreparedStatmentWithAutoGeneratedColumnIndexesArgument() throws Exception {
+		when(nativeObject.prepareStatement(anyString(), anyArrayOfInt())).thenReturn(mock(PreparedStatement.class));
+		PreparedStatement pstmt = proxyObject.prepareStatement("select now() from dual", new int[] { 1 });
+		assertThat(pstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPreparedStatmentWithAutoGeneratedColumnNamesArgument() throws Exception {
+		when(nativeObject.prepareStatement(anyString(), anyArrayOfSting())).thenReturn(mock(PreparedStatement.class));
+		PreparedStatement pstmt = proxyObject.prepareStatement("select now() from dual", new String[] { "id" });
+
+		assertThat(pstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPreparedStatmentWithResultsetTypeAndConcurrencyArguments() throws Exception {
+		when(nativeObject.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(mock(PreparedStatement.class));
+		PreparedStatement pstmt = proxyObject.prepareStatement("select now() from dual", TYPE_SCROLL_INSENSITIVE,
+				CONCUR_UPDATABLE);
+		assertThat(pstmt, isAProxyObjectHavingProxyConnection());
+	}
+
+	@Test
+	public void testPreparedStatmentWithResultsetTypeConcurrencyAndHoldabilityArguments() throws Exception {
+		when(nativeObject.prepareStatement(anyString(), anyInt(), anyInt(), anyInt())).thenReturn(
+				mock(PreparedStatement.class));
+		PreparedStatement pstmt = proxyObject.prepareStatement("select now() from dual", TYPE_SCROLL_INSENSITIVE,
+				CONCUR_UPDATABLE, HOLD_CURSORS_OVER_COMMIT);
+		assertThat(pstmt, isAProxyObjectHavingProxyConnection());
+	}
 }

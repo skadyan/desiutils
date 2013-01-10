@@ -7,14 +7,17 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+import desi.rnp.jdbc.proxy.handler.ProxyCallableStatementHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyConnectionHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyDataSourceHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyDatabaseMetaDataHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyPreparedStatementHandler;
+import desi.rnp.jdbc.proxy.handler.ProxyResultSetHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyStatementHandler;
 
 public class JdbcProxyFactory {
@@ -47,7 +50,7 @@ public class JdbcProxyFactory {
 		requireNonNull(nativeObject, "Native Object is required");
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Object proxy = newProxyInstance(classLoader, new Class<?>[] { ProxyObject.class, CallableStatement.class },
-				new ProxyPreparedStatementHandler(this, nativeObject));
+				new ProxyCallableStatementHandler(this, nativeObject));
 		return (CallableStatement) proxy;
 	}
 
@@ -65,6 +68,15 @@ public class JdbcProxyFactory {
 		Object proxy = newProxyInstance(classLoader, new Class<?>[] { ProxyObject.class, DatabaseMetaData.class },
 				new ProxyDatabaseMetaDataHandler(this, nativeObject));
 		return (DatabaseMetaData) proxy;
+	}
+
+	public ResultSet newProxyObject(ResultSet nativeObject) {
+		requireNonNull(nativeObject, "Native Object is required");
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Object proxy = newProxyInstance(classLoader, new Class<?>[] { ProxyObject.class, ResultSet.class },
+				new ProxyResultSetHandler(this, nativeObject));
+
+		return (ResultSet) proxy;
 	}
 
 }

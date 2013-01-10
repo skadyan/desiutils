@@ -1,24 +1,26 @@
 package desi.rnp.jdbc.proxy.handler;
 
-import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import desi.rnp.jdbc.proxy.JdbcProxyFactory;
 
-public class ProxyStatementHandler extends AbstractProxyStatementInvocationHandler<Statement> {
-
-	private Connection connection;
-
+public class ProxyStatementHandler extends AbstractProxyStatementHandler<Statement> {
 	public ProxyStatementHandler(JdbcProxyFactory proxyFactory, Statement nativeObject) {
 		super(proxyFactory, nativeObject);
 	}
 
-	public void setConnection(Connection connection) {
-		this.connection = connection;
+	public ResultSet executeQuery(String sql) throws SQLException {
+		ResultSet rs = proxyFactory.newProxyObject(nativeObject.executeQuery(sql));
+
+		return wireStatementOn(rs);
 	}
 
-	public Connection getConnection() throws SQLException {
-		return connection;
+	protected ResultSet wireStatementOn(ResultSet rs) {
+		ProxyResultSetHandler statementHandler = getInvocationHandler(rs, ProxyResultSetHandler.class);
+		statementHandler.setStatement((Statement) getTargetProxy());
+		return rs;
 	}
+
 }

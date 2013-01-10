@@ -14,12 +14,17 @@ public class MethodTable {
 
 	private void initTableFor(Class<?> clazz) {
 		map = new HashMap<>();
+		do {
+			addDeclaredMethodOf(clazz);
+			clazz = clazz.getSuperclass();
+		} while (clazz != ProxyObjectInvocationHandlerSupport.class);
+	}
 
+	private void addDeclaredMethodOf(Class<?> clazz) {
 		Method[] methods = clazz.getDeclaredMethods();
 		for (Method method : methods) {
 			map.put(generateMethodKey(method), method);
 		}
-
 	}
 
 	private String generateMethodKey(Method method) {
