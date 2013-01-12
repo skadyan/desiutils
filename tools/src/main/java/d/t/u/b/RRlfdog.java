@@ -36,14 +36,17 @@ public class RRlfdog extends CLlfnsdfgfdg {
 	@Override
 	protected void setFields(List<TextBlock> blocks) {
 		int index = 0;
-		cc = blocks.get(index++);
-		detretrt = blocks.get(index++);
-		xx = blocks.get(index++);
-		wuiyirtrt = blocks.get(index++);
-		dsfsdgd = blocks.get(index++);
-		txx = blocks.get(index++);
-		duffdfsf = blocks.get(index++);
-		cxlczx = blocks.get(index++);
+		cc = blocks.get(index++); // sr
+
+		detretrt = blocks.get(index++); // date
+
+		xx = blocks.get(index++); // network
+
+		wuiyirtrt = blocks.get(index++); // time
+		dsfsdgd = blocks.get(index++); // number
+		txx = blocks.get(index++);// type
+		duffdfsf = blocks.get(index++); // duration
+		cxlczx = blocks.get(index++);// total amt
 		if (index != blocks.size())
 			throw new IllegalArgumentException("Extra element found in list");
 
@@ -70,6 +73,27 @@ public class RRlfdog extends CLlfnsdfgfdg {
 		sb.append(cxlczx).append(" ");
 
 		return sb.toString();
+	}
 
+	@Override
+	public void delete() {
+		super.delete();
+		xx.delete();
+		txx.delete();
+	}
+
+	public String getType() {
+		return txx.getText().toLowerCase();
+	}
+
+	public boolean isCallType(String type) {
+		return type.equalsIgnoreCase(getType());
+	}
+
+	public void copyFrom(CLlfnsdfgfdg src) {
+		super.copyFrom(src);
+		RRlfdog log = (RRlfdog) src;
+		xx.copyFrom(log.xx);
+		txx.copyFrom(log.txx);
 	}
 }

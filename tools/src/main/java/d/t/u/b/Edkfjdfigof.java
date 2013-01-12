@@ -84,7 +84,7 @@ public class Edkfjdfigof extends Adnsdvnfdg {
 		String grandTotal = calculateStatistics(allLogs);
 		log.trace("Number of CUG calls: " + allLogs.size() + " info = " + grandTotal);
 
-		List<CLlfnsdfgfdg> toBeDeleted = filterLogs(allLogs);
+		List<CLlfnsdfgfdg> toBeDeleted = filterLogs(allLogs, true);
 		String newStatistics = calculateStatistics(allLogs);
 
 		log.debug(toBeDeleted.size() + " entrie(s) removed" + ") Final Number of entries: " + allLogs.size()
@@ -174,27 +174,88 @@ public class Edkfjdfigof extends Adnsdvnfdg {
 	}
 
 	protected void processRoaming() {
+		RRsdfsdfsd processor = getRoamingProcessor();
+		if (processor.getDd() == null) {
+			return;
+		}
+		List<CLlfnsdfgfdg> callLogs = processor.fdfmlkgf();
+		
+		List<CLlfnsdfgfdg> alllogs = new LinkedList<CLlfnsdfgfdg>(callLogs);
+		List<CLlfnsdfgfdg> toBeDeleted = filterLogs(alllogs, false);
+
+		log.info("Total Roaming Call after filtering :" + alllogs.size() + " Going to deleted {}", toBeDeleted.size());
+		log.info("Summary of Roaming Call : {} ", getRoamingStatistics(alllogs));
+		Collections.sort(alllogs, new Comparator<CLlfnsdfgfdg>() {
+			@Override
+			public int compare(CLlfnsdfgfdg o1, CLlfnsdfgfdg o2) {
+				String s1 = o1.getCc().getText();
+				String s2 = o2.getCc().getText();
+				int i1 = Integer.parseInt(s1);
+				int i2 = Integer.parseInt(s2);
+
+				return i1 - i2;
+			}
+		});
+
+		// D.trace("Sorted FIANL LIST " + alllogs);
+		int total = alllogs.size();
+
+		List<CLlfnsdfgfdg> placeHolders = sortPlaceHolder(callLogs, Collections.<CLlfnsdfgfdg> emptyList(), total);
+
+		moveLogs(alllogs, total, placeHolders);
+
+		for (int i = total; i < placeHolders.size(); i++) {
+			placeHolders.get(i).delete();
+		}
+		log.debug("Romaing Call " + callLogs.size());
+	}
+
+	private String getRoamingStatistics(List<CLlfnsdfgfdg> alllogs) {
+		double inAmount = 0.0;
+		double outAmount = 0.0;
+		int totalDurationMin = 0;
+		int totalDurationSec = 0;
+
+		for (CLlfnsdfgfdg cLlfnsdfgfdg : alllogs) {
+			RRlfdog log = (RRlfdog) cLlfnsdfgfdg;
+			String duration = log.getDuffdfsf().getText();
+			String[] minuteAndSecs = duration.split(":");
+			int minute = parseNumberIgnoreingLeadingZero(minuteAndSecs[0]);
+			int second = parseNumberIgnoreingLeadingZero(minuteAndSecs[1]);
+			if (log.isCallType("in")) {
+				inAmount += log.getChargesAmt();
+			} else {
+				outAmount += log.getChargesAmt();
+			}
+			totalDurationMin += minute;
+			totalDurationSec += second;
+		}
+		totalDurationMin += (totalDurationSec / 60);
+		totalDurationSec = (totalDurationSec % 60);
+
+		return String.format("Duration: %d:%d ,In Amt: %.2f, Out Amt: %.2f", totalDurationMin, totalDurationSec, inAmount,
+				outAmount);
+	}
+
+	private int parseNumberIgnoreingLeadingZero(String mmOrSs) {
+		if (mmOrSs.length() != 2) {
+			throw new IllegalArgumentException("MM or SS is expected. But is " + mmOrSs);
+		}
+		if ('0' == mmOrSs.charAt(0)) {
+			return Integer.parseInt("" + mmOrSs.charAt(1));
+		}
+		return Integer.parseInt(mmOrSs);
+	}
+
+	private RRsdfsdfsd getRoamingProcessor() {
 		RRsdfsdfsd processor3 = new RRsdfsdfsd();
 		int index = this.callLogFilter.getRoamingPageIndex();
 		log.info("Roaming Calls Page Index : {}", index);
-		if (index == 0) {
-			log.info("Skipping Roaming Calls");
-			return;
+		if (index > 0) {
+			processor3.setDd(getPage(index));
 		}
 
-		processor3.setDd(getPage(index));
-
-		List<CLlfnsdfgfdg> callLogs = processor3.fdfmlkgf();
-		for (CLlfnsdfgfdg log : callLogs) {
-			if (callLogFilter.isJslnlfg(log)) {
-				int sr = log.getSrAsInt();
-				if (sr != 14) {
-					log.getDsfsdgd().setText("919802457571");
-				}
-			}
-		}
-
-		log.debug("Romaing Call " + callLogs);
+		return processor3;
 	}
 
 	void processCUG() {
@@ -217,13 +278,9 @@ public class Edkfjdfigof extends Adnsdvnfdg {
 		alllogs.addAll(e2);
 
 		String grandTotal = calculateStatistics(alllogs);
-
-		List<CLlfnsdfgfdg> toBeDeleted = filterLogs(alllogs);
-
+		List<CLlfnsdfgfdg> toBeDeleted = filterLogs(alllogs, true);
 		String reduceTotal = calculateStatistics(toBeDeleted);
-
 		log.info("Total CUG Call after filtering :" + alllogs.size());
-
 		Collections.sort(alllogs, new Comparator<CLlfnsdfgfdg>() {
 			@Override
 			public int compare(CLlfnsdfgfdg o1, CLlfnsdfgfdg o2) {
@@ -310,7 +367,7 @@ public class Edkfjdfigof extends Adnsdvnfdg {
 		return l1;
 	}
 
-	private List<CLlfnsdfgfdg> filterLogs(List<CLlfnsdfgfdg> logs) {
+	private List<CLlfnsdfgfdg> filterLogs(List<CLlfnsdfgfdg> logs, boolean cug) {
 		// logs = new ArrayList<CallLog>(logs);
 		Calffjsdfdlf.sortBsdfjlySerialNo(logs);
 
@@ -318,7 +375,7 @@ public class Edkfjdfigof extends Adnsdvnfdg {
 		ListIterator<CLlfnsdfgfdg> itr = logs.listIterator();
 		while (itr.hasNext()) {
 			CLlfnsdfgfdg log = itr.next();
-			if (callLogFilter.isJslnlfg(log)) {
+			if (callLogFilter.isJslnlfg(log, cug)) {
 				itr.remove();
 
 				filterdlist.add(log);

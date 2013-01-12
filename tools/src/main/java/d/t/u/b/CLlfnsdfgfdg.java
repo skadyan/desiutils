@@ -136,21 +136,23 @@ public class CLlfnsdfgfdg {
 		detretrt.copyFrom(src.detretrt);
 		wuiyirtrt.copyFrom(src.wuiyirtrt);
 		dsfsdgd.copyFrom(src.dsfsdgd);
-		dfdfdfdfde.copyFrom(src.dfdfdfdfde);
-		duffdfsf.copyFrom(src.duffdfsf);
-
-		String oldT = pudsfsdflse.getText();
-		String newT = src.pudsfsdflse.getText();
-		if (oldT.length() > newT.length()) {
-			int len = oldT.length() - newT.length() + 1;
-			for (int i = 0; i < len; i++) {
-				newT = " " + newT;
-			}
+		if (dfdfdfdfde != null) {
+			dfdfdfdfde.copyFrom(src.dfdfdfdfde);
 		}
+		duffdfsf.copyFrom(src.duffdfsf);
+		if (pudsfsdflse != null) {
+			String oldT = pudsfsdflse.getText();
+			String newT = src.pudsfsdflse.getText();
+			if (oldT.length() > newT.length()) {
+				int len = oldT.length() - newT.length() + 1;
+				for (int i = 0; i < len; i++) {
+					newT = " " + newT;
+				}
+			}
 
-		// pulse.copyFrom(src.pulse);
-		pudsfsdflse.setText(newT);
-
+			// pulse.copyFrom(src.pulse);
+			pudsfsdflse.setText(newT);
+		}
 		cxlczx.copyFrom(src.cxlczx);
 
 		src.xxxxte = "M";
@@ -165,9 +167,13 @@ public class CLlfnsdfgfdg {
 		detretrt.delete();
 		wuiyirtrt.delete();
 		dsfsdgd.delete();
-		dfdfdfdfde.delete();
+		if (dfdfdfdfde != null) {
+			dfdfdfdfde.delete();
+		}
 		duffdfsf.delete();
-		pudsfsdflse.delete();
+		if (pudsfsdflse != null) {
+			pudsfsdflse.delete();
+		}
 		cxlczx.delete();
 
 		xxxxte = "D";
