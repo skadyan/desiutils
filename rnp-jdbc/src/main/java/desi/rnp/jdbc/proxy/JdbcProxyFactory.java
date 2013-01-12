@@ -19,6 +19,9 @@ import desi.rnp.jdbc.proxy.handler.ProxyDatabaseMetaDataHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyPreparedStatementHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyResultSetHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyStatementHandler;
+import desi.rnp.jdbc.proxy.recorder.InteractionRecoderSupport;
+import desi.rnp.jdbc.proxy.recorder.spec.InteractionRecordSpec;
+import desi.rnp.jdbc.proxy.recorder.spec.NoSpec;
 
 public class JdbcProxyFactory {
 
@@ -79,4 +82,12 @@ public class JdbcProxyFactory {
 		return (ResultSet) proxy;
 	}
 
+	public InteractionRecoderSupport getRecordSpecOf(Class<?> type) {
+		InteractionRecordSpec recordSpec = type.getAnnotation(InteractionRecordSpec.class);
+		Class<?> specType = NoSpec.class;
+		if (recordSpec != null) {
+			specType = recordSpec.annotationType();
+		}
+		return new InteractionRecoderSupport(specType);
+	}
 }

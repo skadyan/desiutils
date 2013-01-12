@@ -5,20 +5,29 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import desi.rnp.jdbc.proxy.JdbcProxyFactory;
+import desi.rnp.jdbc.proxy.ProxyObject;
+import desi.rnp.jdbc.proxy.recorder.InteractionRecoderSupport;
 
 public abstract class ProxyObjectInvocationHandlerSupport<T> implements InvocationHandler {
 	protected final JdbcProxyFactory proxyFactory;
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 	protected final T nativeObject;
 
 	protected MethodTable methodTable;
 	protected ThreadLocal<Object> currentTargetProxy;
+	private InteractionRecoderSupport interactionRecorder;
 
 	public ProxyObjectInvocationHandlerSupport(JdbcProxyFactory proxyFactory, T nativeObject) {
 		this.proxyFactory = proxyFactory;
 		this.nativeObject = nativeObject;
 		this.methodTable = new MethodTable(getClass());
 		this.currentTargetProxy = new ThreadLocal<>();
+		this.interactionRecorder = proxyFactory.getRecordSpecOf(getClass());
+
 	}
 
 	public T getNativeObject() {
@@ -31,6 +40,7 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 
 	@Override
 	public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		beforeExecutingMethodOn(proxy, method, args);
 		Method m = findInTable(method);
 		Object result = null;
 		try {
@@ -40,13 +50,22 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 			} else {
 				result = m.invoke(this, args);
 			}
+			afterExecutingMethodOn(proxy, method, args, result);
 		} catch (InvocationTargetException e) {
 			throw e.getTargetException();
 		} finally {
+
 			currentTargetProxy.set(null);
 		}
 
 		return result;
+	}
+
+	protected void afterExecutingMethodOn(Object proxy, Method method, Object[] args, Object result) {
+		interactionRecorder.recordIfNeeded((ProxyObject) proxy, method, args, result);
+	}
+
+	protected void beforeExecutingMethodOn(Object proxy, Method method, Object[] args) {
 	}
 
 	private Method findInTable(Method method) {

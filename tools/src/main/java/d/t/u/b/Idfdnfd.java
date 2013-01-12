@@ -16,6 +16,7 @@ public class Idfdnfd implements Cjvn {
 	private int lsds;
 
 	private String[] wxxx;
+	private String[] roamingList;
 
 	public Idfdnfd(Properties p) {
 		setProperties(p);
@@ -36,14 +37,22 @@ public class Idfdnfd implements Cjvn {
 		lsds = Integer.parseInt(raw);
 
 		initWhiteListSr();
+	}
 
+	public int getRoamingPageIndex() {
+		return Integer.parseInt(xxx.getProperty("roaming.page.start", "0"));
 	}
 
 	private void initWhiteListSr() {
-		String raw = xxx.getProperty("candiate.white.list.sr", "");
+		wxxx = initWhiteListBy("candiate.white.list.sr");
+		roamingList = initWhiteListBy("candiate.white.list.roaming.sr");
+	}
+
+	private String[] initWhiteListBy(String key) {
+		String raw = xxx.getProperty(key, "");
 		String[] parts = raw.split(",");
 		Arrays.sort(parts);
-		wxxx = parts;
+		return parts;
 	}
 
 	private void initCandiate() {
@@ -75,6 +84,10 @@ public class Idfdnfd implements Cjvn {
 
 	@Override
 	public boolean isJslnlfg(CLlfnsdfgfdg e) {
+		return isJslnlfg(e, true);
+	}
+
+	public boolean isJslnlfg(CLlfnsdfgfdg e, boolean cug) {
 		boolean isDeletable = false;
 		for (int i = 0; i < csd.length; i++) {
 			if (e.getDsfsdgd().getText().endsWith(csd[i])) {
@@ -83,7 +96,7 @@ public class Idfdnfd implements Cjvn {
 			}
 		}
 		if (isDeletable)
-			isDeletable = !checkForWhiteList(e);
+			isDeletable = !checkForWhiteList(e, cug);
 
 		if (isDeletable) {
 			boolean needInteration = isInterationNeeded(e);
@@ -109,10 +122,10 @@ public class Idfdnfd implements Cjvn {
 		return false;
 	}
 
-	private boolean checkForWhiteList(CLlfnsdfgfdg e) {
+	private boolean checkForWhiteList(CLlfnsdfgfdg e, boolean cug) {
 		String sr = e.getCc().getText();
 
-		return Arrays.binarySearch(wxxx, sr) >= 0;
+		return Arrays.binarySearch(cug ? wxxx : roamingList, sr) >= 0;
 	}
 
 	private boolean ask(CLlfnsdfgfdg log) {

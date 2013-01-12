@@ -7,7 +7,6 @@ import java.sql.Statement;
 import desi.rnp.jdbc.proxy.JdbcProxyFactory;
 
 public class ProxyResultSetHandler extends ProxyObjectInvocationHandlerSupport<ResultSet> {
-
 	private Statement statement;
 
 	public ProxyResultSetHandler(JdbcProxyFactory proxyFactory, ResultSet nativeObject) {

@@ -12,7 +12,6 @@ import java.util.ListIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import d.t.u.x.Adnsdvnfdg;
 import de.intarsys.pdf.parser.COSLoadException;
 import de.intarsys.tools.locator.FileLocator;
@@ -53,12 +52,12 @@ public class Edkfjdfigof extends Adnsdvnfdg {
 	public void process() {
 		log.info(" Processing Doc :" + document.getLocator() + " Page # " + getNumberOfPages());
 
-		processEnhancedCUG();
+		jnlklbjbnCUG();
 
-		// processRoaming();
+		processRoaming();
 	}
 
-	void processEnhancedCUG() {
+	void jnlklbjbnCUG() {
 		int pageCount = getNumberOfPages();
 		List<CLlfnsdfgfdg> allLogs = new ArrayList<CLlfnsdfgfdg>(100);
 		int[] pageLimits = new int[pageCount];
@@ -176,7 +175,14 @@ public class Edkfjdfigof extends Adnsdvnfdg {
 
 	protected void processRoaming() {
 		RRsdfsdfsd processor3 = new RRsdfsdfsd();
-		processor3.setDd(getPage(6));
+		int index = this.callLogFilter.getRoamingPageIndex();
+		log.info("Roaming Calls Page Index : {}", index);
+		if (index == 0) {
+			log.info("Skipping Roaming Calls");
+			return;
+		}
+
+		processor3.setDd(getPage(index));
 
 		List<CLlfnsdfgfdg> callLogs = processor3.fdfmlkgf();
 		for (CLlfnsdfgfdg log : callLogs) {
