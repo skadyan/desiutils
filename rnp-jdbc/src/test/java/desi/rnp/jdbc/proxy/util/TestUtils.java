@@ -2,6 +2,7 @@ package desi.rnp.jdbc.proxy.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +13,9 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import desi.rnp.jdbc.proxy.handler.ProxyObjectInvocationHandlerSupport;
+import desi.rnp.proxy.bean.Interaction;
 
 public class TestUtils {
 	private final Logger log = LoggerFactory.getLogger(getClass());
@@ -79,5 +83,9 @@ public class TestUtils {
 		}
 		rs.close();
 		return rows;
+	}
+
+	public static Interaction getLastInteractionOn(Object proxy) {
+		return ((ProxyObjectInvocationHandlerSupport<?>) Proxy.getInvocationHandler(proxy)).getLastInteraction();
 	}
 }

@@ -4,6 +4,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import desi.rnp.jdbc.proxy.ProxyObject;
+import desi.rnp.jdbc.proxy.recorder.spec.DoNotRecord;
+
 public class MethodTable {
 
 	private Map<String, Method> map;
@@ -18,12 +21,21 @@ public class MethodTable {
 			addDeclaredMethodOf(clazz);
 			clazz = clazz.getSuperclass();
 		} while (clazz != ProxyObjectInvocationHandlerSupport.class);
+		// add special method for getting object Id from invocation handler
+		addSpecialMethodsOfProxyObject();
+
+	}
+
+	private void addSpecialMethodsOfProxyObject() {
+		addDeclaredMethodOf(ProxyObject.class);
 	}
 
 	private void addDeclaredMethodOf(Class<?> clazz) {
 		Method[] methods = clazz.getDeclaredMethods();
 		for (Method method : methods) {
-			map.put(generateMethodKey(method), method);
+			if (!method.isAnnotationPresent(DoNotRecord.class)) {
+				map.put(generateMethodKey(method), method);
+			}
 		}
 	}
 

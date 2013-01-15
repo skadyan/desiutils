@@ -6,16 +6,27 @@
 			</pattern>
 		</encoder>
 	</appender>
+	<appender name="jdbcInteractionAppender" class="ch.qos.logback.core.FileAppender">
+		<file>d:/temp/jdbcInteractionAppender.log</file>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	
 
 	<logger name="com.bls.desi" level="INFO">
 		<appender-ref ref="STDOUT" />
 	</logger>
-	
-	<logger name="net.ttddyy.dsproxy.listener.SLF4JQueryLoggingListener" level="DEBUG">
-		<appender-ref ref="STDOUT" />
+
+	<logger name="desi.rnp.jdbc.proxy"
+		level="INFO" additivity="false">
+	   <appender-ref ref="STDOUT" />
+	   <appender-ref ref="jdbcInteractionAppender" />
 	</logger>
 
-	<root level="info">
+	<root level="off" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

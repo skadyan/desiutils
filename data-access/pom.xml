@@ -8,8 +8,6 @@
 	</parent>
 	<artifactId>data-access</artifactId>
 	<name>Spring Data Access</name>
-
-
 	<build>
 		<plugins>
 			<plugin>
@@ -87,6 +85,11 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>mango</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rnp-jdbc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

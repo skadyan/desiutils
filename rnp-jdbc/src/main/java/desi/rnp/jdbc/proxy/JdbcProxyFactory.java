@@ -3,12 +3,15 @@ package desi.rnp.jdbc.proxy;
 import static java.lang.reflect.Proxy.newProxyInstance;
 import static java.util.Objects.requireNonNull;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.sql.DataSource;
 
@@ -16,14 +19,19 @@ import desi.rnp.jdbc.proxy.handler.ProxyCallableStatementHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyConnectionHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyDataSourceHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyDatabaseMetaDataHandler;
+import desi.rnp.jdbc.proxy.handler.ProxyObjectInvocationHandlerSupport;
 import desi.rnp.jdbc.proxy.handler.ProxyPreparedStatementHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyResultSetHandler;
 import desi.rnp.jdbc.proxy.handler.ProxyStatementHandler;
+import desi.rnp.jdbc.proxy.integration.Slf4jLoggerInteractionStore;
 import desi.rnp.jdbc.proxy.recorder.InteractionRecoderSupport;
+import desi.rnp.jdbc.proxy.recorder.InteractionStore;
 import desi.rnp.jdbc.proxy.recorder.spec.InteractionRecordSpec;
 import desi.rnp.jdbc.proxy.recorder.spec.NoSpec;
 
 public class JdbcProxyFactory {
+	private static final AtomicLong idGenerator = new AtomicLong(10);
+	private InteractionStore interactionStore = new Slf4jLoggerInteractionStore();
 
 	public Connection newProxyObject(Connection nativeObject) {
 		requireNonNull(nativeObject, "Native Object is required");
@@ -88,6 +96,22 @@ public class JdbcProxyFactory {
 		if (recordSpec != null) {
 			specType = recordSpec.annotationType();
 		}
-		return new InteractionRecoderSupport(specType);
+		return new InteractionRecoderSupport(specType, interactionStore);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> ProxyObjectInvocationHandlerSupport<T> getInvocationHandler(T proxyObject) {
+		if (!(proxyObject instanceof ProxyObject))
+			throw new IllegalArgumentException("is not a ProxyObject instance");
+		InvocationHandler handler = Proxy.getInvocationHandler(proxyObject);
+		return (ProxyObjectInvocationHandlerSupport<T>) (handler);
+	}
+
+	public void setInteractionStore(InteractionStore interactionStore) {
+		this.interactionStore = interactionStore;
+	}
+
+	public String generateUUID(String prefix) {
+		return prefix + idGenerator.incrementAndGet();
 	}
 }

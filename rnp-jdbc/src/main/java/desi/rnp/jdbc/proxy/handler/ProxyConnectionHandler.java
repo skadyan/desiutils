@@ -9,7 +9,6 @@ import java.sql.Statement;
 
 import desi.rnp.jdbc.proxy.JdbcProxyFactory;
 
-
 public class ProxyConnectionHandler extends ProxyObjectInvocationHandlerSupport<Connection> {
 
 	public ProxyConnectionHandler(JdbcProxyFactory proxyFactory, Connection nativeObject) {

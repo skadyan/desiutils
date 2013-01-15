@@ -9,8 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import desi.rnp.jdbc.proxy.JdbcProxyFactory;
-import desi.rnp.jdbc.proxy.ProxyObject;
 import desi.rnp.jdbc.proxy.recorder.InteractionRecoderSupport;
+import desi.rnp.jdbc.proxy.recorder.spec.DoNotRecord;
+import desi.rnp.proxy.bean.Interaction;
 
 public abstract class ProxyObjectInvocationHandlerSupport<T> implements InvocationHandler {
 	protected final JdbcProxyFactory proxyFactory;
@@ -20,6 +21,7 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 	protected MethodTable methodTable;
 	protected ThreadLocal<Object> currentTargetProxy;
 	private InteractionRecoderSupport interactionRecorder;
+	private String objectId;
 
 	public ProxyObjectInvocationHandlerSupport(JdbcProxyFactory proxyFactory, T nativeObject) {
 		this.proxyFactory = proxyFactory;
@@ -27,7 +29,7 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 		this.methodTable = new MethodTable(getClass());
 		this.currentTargetProxy = new ThreadLocal<>();
 		this.interactionRecorder = proxyFactory.getRecordSpecOf(getClass());
-
+		this.objectId = proxyFactory.generateUUID(nativeObject.getClass().getSimpleName() + "-");
 	}
 
 	public T getNativeObject() {
@@ -40,9 +42,11 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 
 	@Override
 	public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		beforeExecutingMethodOn(proxy, method, args);
+		beforeExecutingMethodOn(objectId, method, args);
+
 		Method m = findInTable(method);
 		Object result = null;
+		long time = System.currentTimeMillis();
 		try {
 			currentTargetProxy.set(proxy);
 			if (m == null) {
@@ -50,22 +54,23 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 			} else {
 				result = m.invoke(this, args);
 			}
-			afterExecutingMethodOn(proxy, method, args, result);
+
+			time = System.currentTimeMillis() - time;
+			afterExecutingMethodOn(objectId, method, args, result, time);
 		} catch (InvocationTargetException e) {
 			throw e.getTargetException();
 		} finally {
-
 			currentTargetProxy.set(null);
 		}
 
 		return result;
 	}
 
-	protected void afterExecutingMethodOn(Object proxy, Method method, Object[] args, Object result) {
-		interactionRecorder.recordIfNeeded((ProxyObject) proxy, method, args, result);
+	protected void afterExecutingMethodOn(String objectId, Method method, Object[] args, Object result, long duration) {
+		interactionRecorder.recordIfNeeded(objectId, method, args, result, duration);
 	}
 
-	protected void beforeExecutingMethodOn(Object proxy, Method method, Object[] args) {
+	protected void beforeExecutingMethodOn(String objectId, Method method, Object[] args) {
 	}
 
 	private Method findInTable(Method method) {
@@ -82,5 +87,19 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 
 	protected <H extends InvocationHandler> H getInvocationHandler(Object proxyObject, Class<H> expectedType) {
 		return expectedType.cast(Proxy.getInvocationHandler(proxyObject));
+	}
+
+	public Interaction getLastInteraction() {
+		return interactionRecorder.getLastInteractionOn(objectId, Thread.currentThread().getId());
+	}
+
+	@DoNotRecord
+	public String getObjectId() {
+		return objectId;
+	}
+
+	@DoNotRecord
+	public ProxyObjectInvocationHandlerSupport<?> getInvocationHandler() {
+		return this;
 	}
 }

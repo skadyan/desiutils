@@ -17,24 +17,16 @@
     http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
-
-
-	<bean id="listeners" class="net.ttddyy.dsproxy.listener.ChainListener">
-		<property name="listeners">
-			<list>
-				<bean class="net.ttddyy.dsproxy.listener.SLF4JQueryLoggingListener" />
-			</list>
-		</property>
-	</bean>
-
-	<jdbc:embedded-database id="dataSourceActaul"
+	<jdbc:embedded-database id="dataSourceNative"
 		type="H2" />
 
-	<bean id="dataSource" class="net.ttddyy.dsproxy.support.BeanNameProxyDataSource">
-		<property name="dataSource" ref="dataSourceActaul" />
-		<property name="listener" ref="listeners" />
+	<bean id="dataSourceProxy" class="desi.rnp.jdbc.proxy.integration.ProxyDataSource">
+		<constructor-arg index="0" ref="dataSourceNative" />
 	</bean>
-	<!-- <alias name="dataSourceActaul" alias="dataSource" /> -->
+
+
+	<!-- <alias alias="dataSource" name="dataSourceNative" /> -->
+	<alias name="dataSourceProxy" alias="dataSource" />
 
 	<jdbc:initialize-database data-source="dataSource">
 		<jdbc:script location="classpath:sql/schema.sql" />
