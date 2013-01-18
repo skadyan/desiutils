@@ -1,0 +1,1 @@
+create table User ( id int primary key, firstName varchar(128), lastName varchar(128), active boolean );
