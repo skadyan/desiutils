@@ -1,8 +1,13 @@
+.idea
+*/*.iml
 *.project
 *.classpath
 */.settings/*
 */.gitignore
 */target/*
+*.iml
+pmip/
+
 
 
 
