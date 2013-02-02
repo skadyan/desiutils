@@ -1,6 +1,6 @@
 package com.sapient.ipv.domain;
 
-import static com.sapient.ipv.domain.StringField.id;
+import static com.sapient.ipv.data.dictionary.StringField.id;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 

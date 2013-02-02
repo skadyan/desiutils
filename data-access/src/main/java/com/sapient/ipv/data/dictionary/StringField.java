@@ -1,7 +1,14 @@
-package com.sapient.ipv.domain;
+package com.sapient.ipv.data.dictionary;
 
 public enum StringField implements RawField<String> {
-	id, name, description;
+	//@formatter:off
+	id,
+	name, 
+	description,
+	
+	
+	//@formatter:on
+	;
 
 	@Override
 	public Class<String> type() {
@@ -17,5 +24,4 @@ public enum StringField implements RawField<String> {
 	public String fromExternalString(String value) {
 		return value;
 	}
-
 }

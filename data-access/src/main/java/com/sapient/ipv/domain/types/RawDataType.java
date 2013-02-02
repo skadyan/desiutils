@@ -1,12 +1,10 @@
 package com.sapient.ipv.domain.types;
 
-import static java.sql.Types.CLOB;
+import static java.sql.Types.LONGVARBINARY;
 
-import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +21,7 @@ public class RawDataType implements EnhancedUserType {
 
 	@Override
 	public int[] sqlTypes() {
-		return new int[] { CLOB };
+		return new int[] { LONGVARBINARY };
 	}
 
 	@Override
@@ -45,9 +43,9 @@ public class RawDataType implements EnhancedUserType {
 	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
 			throws HibernateException, SQLException {
 		RawData rawData = new RawData();
-		Clob clob = rs.getClob(names[0]);
+		String clob = rs.getString(names[0]);
 		if (!rs.wasNull()) {
-			rawData.fromXml(clob.getCharacterStream());
+			rawData.fromXml(new StringReader(clob));
 		}
 
 		return rawData;
@@ -57,10 +55,9 @@ public class RawDataType implements EnhancedUserType {
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
 			throws HibernateException, SQLException {
 		if (isRawDataEmpty(value)) {
-			st.setNull(index, Types.CLOB);
+			st.setNull(index, Types.LONGVARBINARY);
 		} else {
-			Reader clob = new StringReader(convertToXml(value));
-			st.setClob(index, clob);
+			st.setString(index, convertToXml(value));
 		}
 	}
 

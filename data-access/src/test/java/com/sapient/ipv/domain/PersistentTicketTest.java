@@ -1,8 +1,10 @@
 package com.sapient.ipv.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+
+import com.sapient.ipv.data.dictionary.StringField;
 
 
 public class PersistentTicketTest {
@@ -12,7 +14,6 @@ public class PersistentTicketTest {
 		PersistentTicket ticket =new PersistentTicket();
 		ticket.putRawField(StringField.id, "id");
 		Object rawField = ticket.getRawField(StringField.id);
-		
 		assertNotNull(rawField);
 	}
 }

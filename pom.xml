@@ -34,8 +34,10 @@
 		<skipUTs>${skipTests}</skipUTs>
 
 		<springframework.version>3.2.0.RELEASE</springframework.version>
+		<springframework.security.version>3.1.3.RELEASE</springframework.security.version>
 		<springframework.data.version>1.1.0.RELEASE</springframework.data.version>
 		<hibernate.version>4.1.2.Final</hibernate.version>
+		<jackson.version>2.1.3</jackson.version>
 
 	</properties>
 

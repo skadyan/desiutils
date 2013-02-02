@@ -18,6 +18,8 @@ import javax.persistence.FetchType;
 
 import org.xml.sax.InputSource;
 
+import com.sapient.ipv.data.dictionary.RawField;
+
 @Embeddable
 public class RawData implements Cloneable, Serializable {
 	private static final long serialVersionUID = 1L;

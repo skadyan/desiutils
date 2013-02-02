@@ -1,4 +1,4 @@
-package com.sapient.ipv.domain;
+package com.sapient.ipv.data.dictionary;
 
 public interface RawField<T> {
 	String name();

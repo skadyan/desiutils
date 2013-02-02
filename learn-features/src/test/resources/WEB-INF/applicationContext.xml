@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/jdbc
+    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+    http://www.springframework.org/schema/data/context/
+    http://www.springframework.org/schema/data/context/spring-context.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<bean id="securityService" class="desi.learn.spring.security.SecurityService">
+		<security:intercept-methods>
+			<security:protect method="desi.learn.spring.security.SecurityService.getRoles" access="ROLE_MANAGER" />
+		</security:intercept-methods>
+	</bean>
+
+	<security:http realm="SecRemoting">
+		<security:http-basic />
+		<security:intercept-url pattern="/securityService"
+			access="ROLE_ADMIN" />
+	</security:http>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider>
+			<security:user-service id="uds">
+				<security:user name="Jami" password="Jami"
+					authorities="ROLE_USER, ROLE_MANAGER" />
+				<security:user name="bob" password="bob"
+					authorities="ROLE_USER,ROLE_ADMIN" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<bean id="digestProcessingFilter"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+		<property name="userDetailsService" ref="uds" />
+		<property name="authenticationEntryPoint" ref="digestProcessingFilterEntryPoint" />
+	</bean>
+	<bean id="digestProcessingFilterEntryPoint"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
+		<property name="realmName" value="ThisIsTheDigestRealm" />
+		<property name="key" value="acegi" />
+		<property name="nonceValiditySeconds" value="10" />
+	</bean>
+	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+		<security:filter-chain-map path-type="ant">
+			<security:filter-chain pattern="/**"
+				filters="httpSessionContextIntegrationFilter,digestProcessingFilter,exceptionTranslationFilter,filterSecurityInterceptor" />
+		</security:filter-chain-map>
+	</bean>
+
+	<bean id="httpSessionContextIntegrationFilter"
+		class="org.springframework.security.web.context.HttpSessionContextIntegrationFilter" />
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.springframework.security.access.vote.RoleVoter" />
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="exceptionTranslationFilter"
+		class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint" ref="digestProcessingFilterEntryPoint" />
+	</bean>
+</beans>

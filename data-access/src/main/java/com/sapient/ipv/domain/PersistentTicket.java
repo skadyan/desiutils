@@ -11,6 +11,8 @@ import javax.persistence.InheritanceType;
 
 import org.joda.time.DateTime;
 
+import com.sapient.ipv.data.dictionary.RawField;
+
 import desi.mango.utils.MiscUtils;
 
 @Entity(name = "Ticket")

@@ -65,5 +65,4 @@ public class Account {
 	public void setProperties(List<AccountProperty> properties) {
 		this.properties = properties;
 	}
-
 }
