@@ -6,7 +6,6 @@ public interface IsTicket {
 	public enum Status {
 		Submitted, Started, Processed, Error, Cancelled
 	}
-
 	String getId();
 
 	String getCorrelationId();
