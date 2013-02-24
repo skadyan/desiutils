@@ -11,7 +11,7 @@ public class MethodTable {
 
 	private Map<String, Method> map;
 
-	public MethodTable(Class<?> clazz) {
+	public MethodTable(@SuppressWarnings("rawtypes") Class<? extends ProxyObjectInvocationHandlerSupport> clazz) {
 		initTableFor(clazz);
 	}
 

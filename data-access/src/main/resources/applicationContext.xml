@@ -28,8 +28,8 @@
 	</bean>
 
 
-	<!-- <alias alias="dataSource" name="dataSourceNative" /> -->
-	<alias name="dataSourceProxy" alias="dataSource" />
+	<alias alias="dataSource" name="dataSourceNative" />
+	<!-- <alias name="dataSourceProxy" alias="dataSource" /> -->
 
 	<jdbc:initialize-database data-source="dataSource">
 		<jdbc:script location="classpath:sql/schema.sql" />

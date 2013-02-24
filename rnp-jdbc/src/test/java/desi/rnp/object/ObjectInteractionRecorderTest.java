@@ -14,6 +14,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import desi.rnp.jdbc.proxy.InMemoryInteractionStore;
 import desi.rnp.jdbc.proxy.JdbcProxyFactory;
 import desi.rnp.proxy.bean.Interaction;
 
@@ -24,7 +25,7 @@ public class ObjectInteractionRecorderTest {
 
 	@Before
 	public void setUp() throws Exception {
-		proxyFactory = new JdbcProxyFactory();
+		proxyFactory = new JdbcProxyFactory(new InMemoryInteractionStore());
 		nativeObject = mock(Connection.class);
 		proxyObject = proxyFactory.newProxyObject(nativeObject);
 	}

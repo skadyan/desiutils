@@ -31,7 +31,15 @@ import desi.rnp.jdbc.proxy.recorder.spec.NoSpec;
 
 public class JdbcProxyFactory {
 	private static final AtomicLong idGenerator = new AtomicLong(10);
-	private InteractionStore interactionStore = new Slf4jLoggerInteractionStore();
+	private InteractionStore interactionStore;
+
+	public JdbcProxyFactory() {
+		this(new Slf4jLoggerInteractionStore());
+	}
+
+	public JdbcProxyFactory(InteractionStore interactionStore) {
+		this.interactionStore = interactionStore;
+	}
 
 	public Connection newProxyObject(Connection nativeObject) {
 		requireNonNull(nativeObject, "Native Object is required");

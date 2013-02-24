@@ -10,7 +10,6 @@ public class TestSplit {
 		String[] split = "20|454.454".split("\\|");
 
 		Assert.assertEquals(2, split.length);
-
 	}
 
 }

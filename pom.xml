@@ -10,6 +10,7 @@
 	<modules>
 		<module>mango</module>
 		<module>learn-features</module>
+		<module>learn-bdd</module>
 		<module>data-access</module>
 		<module>coreservices</module>
 		<module>tools</module>

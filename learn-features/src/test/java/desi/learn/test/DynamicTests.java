@@ -23,7 +23,7 @@ public class DynamicTests {
 		JUnitTestSuiteProvider testSuiteProvider = new JUnitTestSuiteProvider();
 
 		testSuiteProvider.addClass(ClassUnderTest.class);
-		testSuiteProvider.addClass(AnotherClassUnderTest.class);
+//		testSuiteProvider.addClass(AnotherClassUnderTest.class);
 
 		testSuiteProvider.addClassChecker(ToStringNotNullChecker.class);
 		testSuiteProvider.addClassChecker(BijectiveCompareToChecker.class);

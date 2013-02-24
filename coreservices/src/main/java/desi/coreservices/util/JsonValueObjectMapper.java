@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonValueObjectMapper {
-
 	private ObjectMapper objectMapper;
 
 	public JsonValueObjectMapper() {
@@ -16,7 +15,7 @@ public class JsonValueObjectMapper {
 	}
 
 	private ObjectMapper initObjectMapper() {
-		ObjectMapper  mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
 		mapper.addHandler(new ValueObjectRawDataPopulater());
 		return mapper;
 	}
@@ -32,5 +31,4 @@ public class JsonValueObjectMapper {
 	public <T> T readObject(Reader reader, Class<T> valueType) throws IOException {
 		return objectMapper.readValue(reader, valueType);
 	}
-
 }

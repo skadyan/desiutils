@@ -26,7 +26,7 @@ public abstract class ProxyObjectInvocationHandlerSupport<T> implements Invocati
 	public ProxyObjectInvocationHandlerSupport(JdbcProxyFactory proxyFactory, T nativeObject) {
 		this.proxyFactory = proxyFactory;
 		this.nativeObject = nativeObject;
-		this.methodTable = new MethodTable(getClass());
+		this.methodTable = new MethodTable(getClass() );
 		this.currentTargetProxy = new ThreadLocal<>();
 		this.interactionRecorder = proxyFactory.getRecordSpecOf(getClass());
 		this.objectId = proxyFactory.generateUUID(nativeObject.getClass().getSimpleName() + "-");
