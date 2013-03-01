@@ -18,41 +18,4 @@
     http://www.springframework.org/schema/aop/spring-aop.xsd
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security.xsd">
-
-
-	<jdbc:embedded-database id="dataSourceNative"
-		type="H2" />
-
-	<bean id="dataSourceProxy" class="desi.rnp.jdbc.proxy.integration.ProxyDataSource">
-		<constructor-arg index="0" ref="dataSourceNative" />
-	</bean>
-
-
-	<alias alias="dataSource" name="dataSourceNative" />
-	<!-- <alias name="dataSourceProxy" alias="dataSource" /> -->
-
-	<jdbc:initialize-database data-source="dataSource">
-		<jdbc:script location="classpath:sql/schema.sql" />
-		<jdbc:script location="classpath:sql/data.sql" />
-	</jdbc:initialize-database>
-
-
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceUnitName" value="spring-jpa" />
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="database" value="H2" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
-
-	<jpa:repositories base-package="com.sapient.ipv.repositories" />
-	<context:component-scan base-package="com.sapient.ipv.domain" />
-
 </beans>

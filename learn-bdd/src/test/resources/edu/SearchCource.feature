@@ -1,13 +1,16 @@
-Feature: Search courses
-  In order to ensure better utilization of courses
-  Potential students should be able to search for courses
+Feature: Take Driver Contact Details
 
-  Scenario: Search by topic
-    Given there are 240 courses where neither has the topic "biology" 
-    And there are 3 courses A,B,C that each have "biology" as one of the topics
-    When I search for "biology" 
-    Then I should see a the following courses:
-      | title |
-      | A     |
-      | B     |
-      | C     |
+  In order to have the maximum pool of driver, we need to collect the driver 
+  information online. 
+
+ Scenario: Successful Submission
+    Given A user is on contact detail page 
+	And fill following information
+     | Field	  | Value		|
+     | First Name | Hony 		| 
+     | Last Name  | Singh 		|
+     | DL Number  | HR-06-100001| 
+    When Submit the page
+    Then System register the request and generate the reference number.
+
+      
