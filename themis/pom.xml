@@ -99,6 +99,13 @@
 			<version>7.0.12</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jsp-api</artifactId>
+			<version>7.0.12</version>
+			<scope>provided</scope>
+		</dependency>
+		
 
 
 	</dependencies>
