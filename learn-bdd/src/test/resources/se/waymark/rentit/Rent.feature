@@ -8,3 +8,8 @@ Feature: Rental cars should be possible to rent to gain revenue to the rental co
     Given there are 18 cars available for rental
     When I rent one
     Then there will only be 17 cars available for rental
+
+  Scenario: Find and rent a car
+	Given there are 20 cars available for rental
+	When I rent one
+	Then there will only be 19 cars available for rental

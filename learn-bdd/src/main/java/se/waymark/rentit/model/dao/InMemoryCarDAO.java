@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryCarDAO implements CarDAO {
-    private static List<Car> cars;
+    private List<Car> cars;
 
     public InMemoryCarDAO() {
         if (cars == null) {
@@ -15,7 +15,7 @@ public class InMemoryCarDAO implements CarDAO {
         }
     }
 
-    @Override
+	@Override
     public void add(Car car) {
         cars.add(car);
     }

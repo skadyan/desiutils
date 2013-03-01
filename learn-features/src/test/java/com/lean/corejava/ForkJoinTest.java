@@ -14,7 +14,7 @@ public class ForkJoinTest {
 		final AtomicLong counter;
 
 		public MyTask() {
-			counter = new AtomicLong(100);
+			counter = new AtomicLong(10000);
 		}
 
 		public MyTask(AtomicLong counter) {
@@ -30,8 +30,7 @@ public class ForkJoinTest {
 			if (counter.decrementAndGet() > 0)
 				try {
 					new MyTask(counter).fork().get();
-				} catch (InterruptedException | ExecutionException e) {
-					// TODO Auto-generated catch block
+				} catch (InterruptedException | ExecutionException  | StackOverflowError e) {
 					e.printStackTrace();
 				}
 		}
