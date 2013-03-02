@@ -16,6 +16,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.16</version>
+		</dependency>
+		<dependency>
 			<groupId>de.intarsys.opensource</groupId>
 			<artifactId>jPod</artifactId>
 			<version>5.3</version>
