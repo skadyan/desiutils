@@ -42,6 +42,59 @@
 					</tasks>
 				</configuration>
 			</plugin>
+
+			<!-- Compile time weaving -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerVersion>${java.target.version}</compilerVersion>
+					<fork>true</fork>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.4</version>
+				<configuration>
+					<showWeaveInfo>true</showWeaveInfo>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+					<Xlint>ignore</Xlint>
+					<complianceLevel>${java.target.version}</complianceLevel>
+					<verbose>false</verbose>
+					<aspectLibraries>
+						<aspectLibrary>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-aspects</artifactId>
+						</aspectLibrary>
+					</aspectLibraries>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjrt</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjtools</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -73,6 +126,25 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
+<!-- 								<pluginExecution> -->
+<!-- 									<pluginExecutionFilter> -->
+<!-- 										<groupId> -->
+<!-- 											org.codehaus.mojo -->
+<!-- 										</groupId> -->
+<!-- 										<artifactId> -->
+<!-- 											aspectj-maven-plugin -->
+<!-- 										</artifactId> -->
+<!-- 										<versionRange> -->
+<!-- 											[1.4,) -->
+<!-- 										</versionRange> -->
+<!-- 										<goals> -->
+<!-- 											<goal>compile</goal> -->
+<!-- 										</goals> -->
+<!-- 									</pluginExecutionFilter> -->
+<!-- 									<action> -->
+<!-- 										<ignore></ignore> -->
+<!-- 									</action> -->
+<!-- 								</pluginExecution> -->
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -87,11 +159,6 @@
 			<artifactId>mango</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>rnp-jdbc</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -101,6 +168,10 @@
 				<exclusion>
 					<artifactId>junit-dep</artifactId>
 					<groupId>junit</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>aspectjrt</artifactId>
+					<groupId>org.aspectj</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>

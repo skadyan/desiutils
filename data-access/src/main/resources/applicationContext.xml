@@ -23,9 +23,9 @@
 	<jdbc:embedded-database id="dataSourceNative"
 		type="H2" />
 
-	<bean id="dataSourceProxy" class="desi.rnp.jdbc.proxy.integration.ProxyDataSource">
-		<constructor-arg index="0" ref="dataSourceNative" />
-	</bean>
+<!-- 	<bean  lazy-init="true" id="dataSourceProxy" class="desi.rnp.jdbc.proxy.integration.ProxyDataSource"> -->
+<!-- 		<constructor-arg index="0" ref="dataSourceNative" /> -->
+<!-- 	</bean> -->
 
 
 	<alias alias="dataSource" name="dataSourceNative" />
@@ -51,6 +51,9 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+	
+	<bean class="com.sapient.ipv.service.CoreDataService" />
+	<tx:annotation-driven transaction-manager="transactionManager" mode="aspectj"/>
 
 	<jpa:repositories base-package="com.sapient.ipv.repositories" />
 	<context:component-scan base-package="com.sapient.ipv.domain" />

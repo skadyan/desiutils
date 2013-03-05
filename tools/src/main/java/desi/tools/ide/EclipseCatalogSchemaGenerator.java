@@ -24,7 +24,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public class EclipseCatalogSchemaGenerator {
-	final static String springVersionExtn = "3.1.3.RELEASE.jar";
+	final static String springVersionExtn = "3.2.1.RELEASE.jar";
 	private String searchDirectory;
 	private FileWriter out;
 	private Map<String, String> systemEntries;
@@ -33,7 +33,7 @@ public class EclipseCatalogSchemaGenerator {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String mvnLocalRepository = "D:\\data\\sharedlibs\\m2\\repository\\org\\springframework";
+		String mvnLocalRepository = "D:/tools/mvn_repo/org/springframework";
 		String destination = "target/user_catalog.xml";
 
 		EclipseCatalogSchemaGenerator generator = new EclipseCatalogSchemaGenerator();
@@ -55,10 +55,12 @@ public class EclipseCatalogSchemaGenerator {
 
 		FileVisitor<? super Path> visitor = new SimpleFileVisitor<Path>() {
 			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+			public FileVisitResult visitFile(Path file,
+					BasicFileAttributes attrs) throws IOException {
 				if (attrs.isRegularFile()) {
 					String fileName = file.getFileName().toString();
-					if (fileName.endsWith(".jar") && !fileName.endsWith("-sources.jar")) {
+					if (fileName.endsWith(".jar")
+							&& !fileName.endsWith("-sources.jar")) {
 						if (fileName.endsWith(springVersionExtn))
 							processJar(file);
 					}
@@ -83,6 +85,7 @@ public class EclipseCatalogSchemaGenerator {
 		try {
 			Template template = conf.getTemplate("user-catalog.xml.template");
 			template.process(hash, buff);
+			System.out.println(" Number of entries :" + systemEntries.size());
 		} catch (TemplateException e) {
 			throw new IOException(e);
 		} finally {
@@ -95,13 +98,15 @@ public class EclipseCatalogSchemaGenerator {
 			String jarFilePath = file.toUri().toString();
 			ZipEntry entry = jarFile.getEntry("META-INF/spring.schemas");
 			if (entry != null) {
-				Properties properties = loadSteamAsProperties(jarFile.getInputStream(entry));
+				Properties properties = loadSteamAsProperties(jarFile
+						.getInputStream(entry));
 				findSystemEntries(properties, "jar:" + jarFilePath + "!");
 			}
 		}
 	}
 
-	private void findSystemEntries(Map<Object, Object> properties, String jarFilePath) throws IOException {
+	private void findSystemEntries(Map<Object, Object> properties,
+			String jarFilePath) throws IOException {
 		for (Map.Entry<Object, Object> e : properties.entrySet()) {
 			String key = e.getKey().toString();
 			String location = toFullPath(jarFilePath, e.getValue().toString());
@@ -110,7 +115,8 @@ public class EclipseCatalogSchemaGenerator {
 		}
 	}
 
-	private void validateLocationAndAddEntry(String key, String location) throws IOException {
+	private void validateLocationAndAddEntry(String key, String location)
+			throws IOException {
 		if (validateLocation(location)) {
 			addSystemEntry(key, location);
 
@@ -147,7 +153,8 @@ public class EclipseCatalogSchemaGenerator {
 		return location.toString();
 	}
 
-	private Properties loadSteamAsProperties(InputStream stream) throws IOException {
+	private Properties loadSteamAsProperties(InputStream stream)
+			throws IOException {
 		Properties properties = new Properties();
 		properties.load(stream);
 		return properties;

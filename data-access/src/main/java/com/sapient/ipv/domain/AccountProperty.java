@@ -36,4 +36,8 @@ public class AccountProperty {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 }

@@ -20,7 +20,7 @@ import desi.mango.utils.MiscUtils;
 @DiscriminatorColumn(name = "persistentType")
 public class PersistentTicket {
 	@Column(nullable = false, updatable = false)
-	private final String persistentType = getClass().getSimpleName();
+	private String persistentType = getClass().getSimpleName();
 	@Id
 	private String id;
 	@Column(nullable = false)
