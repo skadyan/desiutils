@@ -28,7 +28,7 @@
 
 	<mvc:annotation-driven />
 
-	<mvc:resources mapping="/resources/**" location="/resources/"></mvc:resources>
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 

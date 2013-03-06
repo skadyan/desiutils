@@ -19,7 +19,7 @@ public class Account {
 
 	private String name;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private User owner;
 
 	@OneToMany(cascade = { CascadeType.ALL } ,fetch=FetchType.LAZY)

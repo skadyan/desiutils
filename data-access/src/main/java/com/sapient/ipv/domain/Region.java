@@ -1,6 +1,7 @@
 package com.sapient.ipv.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
@@ -12,6 +13,7 @@ public class Region extends AbstractAuditable<User, Long> {
 
 	private String timeZone;
 
+	@Id
 	public void setId(Long id) {
 		super.setId(id);
 	}

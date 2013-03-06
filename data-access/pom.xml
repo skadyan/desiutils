@@ -11,41 +11,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<tasks>
-						<taskdef name="instrument"
-							classname="org.hibernate.tool.instrument.javassist.InstrumentTask">
-							<classpath>
-								<path>
-									<path refid="maven.plugin.classpath" />
-									<path refid="maven.runtime.classpath" />
-								</path>
-							</classpath>
-						</taskdef>
-
-						<instrument verbose="true">
-							<fileset dir="${project.build.outputDirectory}">
-								<include name="**/*Ticket.class">
-								</include>
-							</fileset>
-						</instrument>
-					</tasks>
-				</configuration>
-			</plugin>
-
-			<!-- Compile time weaving -->
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -61,7 +26,7 @@
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.4</version>
 				<configuration>
-					<showWeaveInfo>true</showWeaveInfo>
+					<showWeaveInfo>false</showWeaveInfo>
 					<source>${java.source.version}</source>
 					<target>${java.target.version}</target>
 					<Xlint>ignore</Xlint>
@@ -105,48 +70,7 @@
 					<artifactId>lifecycle-mapping</artifactId>
 					<version>1.0.0</version>
 					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-antrun-plugin
-										</artifactId>
-										<versionRange>
-											[1.7,)
-										</versionRange>
-										<goals>
-											<goal>run</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-<!-- 								<pluginExecution> -->
-<!-- 									<pluginExecutionFilter> -->
-<!-- 										<groupId> -->
-<!-- 											org.codehaus.mojo -->
-<!-- 										</groupId> -->
-<!-- 										<artifactId> -->
-<!-- 											aspectj-maven-plugin -->
-<!-- 										</artifactId> -->
-<!-- 										<versionRange> -->
-<!-- 											[1.4,) -->
-<!-- 										</versionRange> -->
-<!-- 										<goals> -->
-<!-- 											<goal>compile</goal> -->
-<!-- 										</goals> -->
-<!-- 									</pluginExecutionFilter> -->
-<!-- 									<action> -->
-<!-- 										<ignore></ignore> -->
-<!-- 									</action> -->
-<!-- 								</pluginExecution> -->
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
+						
 					</configuration>
 				</plugin>
 			</plugins>
@@ -228,6 +152,18 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
 
 
