@@ -1,0 +1,107 @@
+<flights>
+	<flight number="AS125666">
+		<carrier>
+			<code>BSG67000</code>
+			<name>British Airways</name>
+			<country>UK</country>
+		</carrier>
+		<departure>
+			<country>Great Britain</country>
+			<city>London</city>
+			<airport code="LWH">London Heathrow</airport>
+			<time>2013-03-17T09:00:00Z</time>
+			<service_company>XD6790-9878</service_company>
+		</departure>
+		<destination>
+			<country>Italy</country>
+			<city>Naples</city>
+			<airport code="NAP">Naples International</airport>
+			<time>2013-03-17T19:12:14Z</time>
+			<service_company>XD6777-1223</service_company>
+		</destination>
+	</flight>
+	<flight number="KS125666">
+		<carrier>
+			<code>XXG6788000</code>
+			<name>United Airlines</name>
+			<country>USA</country>
+		</carrier>
+		<departure>
+			<country>USA</country>
+			<city>New York</city>
+			<airport code="JFK">John F. Kennedy International Airport</airport>
+			<time>2013-03-17T09:02:00Z</time>
+			<service_company>RG6899-9878</service_company>
+		</departure>
+		<destination>
+			<country>UK</country>
+			<city>London</city>
+			<airport code="LHW">London Heathrow</airport>
+			<time>2013-03-17T17:18:00Z</time>
+			<service_company>XD6777-1223</service_company>
+		</destination>
+	</flight>
+	<flight number="AS126236">
+		<carrier>
+			<code>BSG67000</code>
+			<name>British Airways</name>
+			<country>UK</country>
+		</carrier>
+		<departure>
+			<country>Great Britain</country>
+			<city>London</city>
+			<airport code="LGW">London Gatwick</airport>
+			<time>2013-03-17T09:03:00Z</time>
+			<service_company>XD6790-9878</service_company>
+		</departure>
+		<destination>
+			<country>Spain</country>
+			<city>Madrid</city>
+			<airport code="MAD">Madrid Barajas</airport>
+			<time>2013-03-17T12:12:14Z</time>
+			<service_company>XD8877-1931</service_company>
+		</destination>
+	</flight>
+	<flight number="AS127355">
+		<carrier>
+			<code>BSG67000</code>
+			<name>British Airways</name>
+			<country>UK</country>
+		</carrier>
+		<departure>
+			<country>Great Britain</country>
+			<city>London</city>
+			<airport code="LLT">London Luton</airport>
+			<time>2013-03-17T09:05:00Z</time>
+			<service_company>XD8890-9423</service_company>
+		</departure>
+		<destination>
+			<country>France</country>
+			<city>Paris</city>
+			<airport code="GDG">Charles De Gaulle</airport>
+			<time>2013-03-17T10:32:14Z</time>
+			<service_company>XR4257-8223</service_company>
+		</destination>
+	</flight>
+	<flight number="PF133666">
+		<carrier>
+			<code>BSG875400</code>
+			<name>TAP Portugal</name>
+			<country>Portugal</country>
+		</carrier>
+		<departure>
+			<country>Great Britain</country>
+			<city>London</city>
+			<airport code="LST">London Stanstead</airport>
+			<time>2013-03-17T09:07:00Z</time>
+			<service_company>ZZ6790-3378</service_company>
+		</departure>
+		<destination>
+			<country>Portugal</country>
+			<city>Lisbon</city>
+			<airport code="LIS">Lisboa</airport>
+			<time>2013-03-17T19:12:14Z</time>
+			<service_company>XD6777-1223</service_company>
+		</destination>
+	</flight>
+</flights>

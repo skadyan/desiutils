@@ -63,14 +63,13 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
 					<version>1.0.0</version>
 					<configuration>
-						
+
 					</configuration>
 				</plugin>
 			</plugins>
@@ -163,8 +162,15 @@
 			<version>${aspectj.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search</artifactId>
+			<version>${hibernate.search.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-analyzers</artifactId>
+			<version>${hibernate.search.version}</version>
+		</dependency>
 	</dependencies>
-
-
 </project>
