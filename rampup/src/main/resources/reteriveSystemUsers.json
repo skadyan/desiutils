@@ -1,0 +1,9 @@
+{
+	"success": "System User List",
+	"total": 2,
+	"users" : [
+		{"username" :"skadya", "displayName" :"Sandeep Kadyan"},
+		{"username" :"ksarin", "displayName" :"Karan Sarin"},
+		{"username" : "ddeb", "displayName" : "Debojit Deb"}
+	]
+}

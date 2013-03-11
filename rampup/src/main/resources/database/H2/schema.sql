@@ -1,4 +1,4 @@
-create table TrxSet( 
+create table Trx( 
 	id int IDENTITY primary key
 	, status varchar(128)
 	, enteredBy varchar(128)

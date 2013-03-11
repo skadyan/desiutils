@@ -21,10 +21,11 @@ import com.sapient.wmc.rampup.domain.Trx;
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @ContextConfiguration("classpath:/context/applicationContext-test.xml")
-public class TrxSetRepositoryTest {
+
+public class TrxRepositoryTest {
 
 	@Inject
-	private TrxSetRepository repository;
+	private TrxRepository repository;
 
 	@Test
 	public void testSaveAndReadBackATransactionSet() throws Exception {

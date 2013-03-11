@@ -1,8 +1,9 @@
 Ext.define('WMC.view.SearchTransactionForm', {
 	extend : 'Ext.form.Panel',
+	requires : ['WMC.view.SystemUserCombobox'],
+
 	alias : 'widget.searchtransactionform',
 	title : 'Search Transaction',
-
 	// The fields
 	defaultType : 'textfield',
 	items : [ {
@@ -23,7 +24,7 @@ Ext.define('WMC.view.SearchTransactionForm', {
 	}, {
 		fieldLabel : 'Approved By',
 		name : 'approvedBy',
-		xtype : 'combobox',
+		xtype : 'systemuserlist',
 	}, {
 		fieldLabel : 'Date Entered',
 		name : 'dateEntered',

@@ -1,13 +1,13 @@
 package com.sapient.ipv.data.dictionary;
 
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+
 public enum StringField implements RawField<String> {
-	//@formatter:off
-	id,
-	name, 
-	description,
-	
-	
-	//@formatter:on
+	// @formatter:off
+	id, name, description,
+
+	// @formatter:on
 	;
 
 	@Override
@@ -16,12 +16,7 @@ public enum StringField implements RawField<String> {
 	}
 
 	@Override
-	public String toExternalString(String value) {
-		return value;
-	}
-
-	@Override
-	public String fromExternalString(String value) {
-		return value;
+	public PropertyEditor propertyEditor() {
+		return PropertyEditorManager.findEditor(String.class);
 	}
 }

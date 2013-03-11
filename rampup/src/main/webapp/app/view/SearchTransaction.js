@@ -1,5 +1,5 @@
 Ext.define('WMC.view.SearchTransaction', {
-	requires : [ 'WMC.view.SearchTransactionPanel', 'WMC.view.SearchTransactionForm', ],
+	requires : [ 'WMC.view.SearchTransactionPanel', 'WMC.view.SearchTransactionForm'],
 	extend : 'Ext.container.Container',
 	alias : 'widget.searchtransaction',
 	layout : {

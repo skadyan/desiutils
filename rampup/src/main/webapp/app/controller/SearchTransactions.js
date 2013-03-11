@@ -1,8 +1,8 @@
 Ext.define('WMC.controller.SearchTransactions', {
 	extend : 'Ext.app.Controller',
 
-	views : [ 'SearchTransaction' ],
-	stores : [ 'SearchResults' ],
+	views : [ 'SearchTransaction', ],
+	stores : [ 'SearchResults' , 'SystemUsers'],
 	models : [ 'Transaction' ],
 
 	init : function() {

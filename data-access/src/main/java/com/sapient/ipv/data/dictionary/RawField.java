@@ -1,11 +1,11 @@
 package com.sapient.ipv.data.dictionary;
 
+import java.beans.PropertyEditor;
+
 public interface RawField<T> {
 	String name();
 
 	Class<T> type();
 
-	String toExternalString(T value);
-
-	T fromExternalString(String value);
+	PropertyEditor propertyEditor();
 }
